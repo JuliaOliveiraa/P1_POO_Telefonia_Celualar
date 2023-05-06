@@ -1,11 +1,11 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class Telefonia {
-    private static final int MAX_PRE_PAGOS = ;
     private AssinantePrePago[] prePagos;
     private int numPrePagos;
     private AssinantePosPago[] posPagos;
@@ -20,7 +20,7 @@ public class Telefonia {
 
     public void cadastrarAssinante() {
         System.out.println("Digite o tipo de assinante (1 - Pré-pago, 2 - Pós-pago):");
-        Scanner scanner;
+        Scanner scanner = null;
         int tipoAssinante = scanner.nextInt();
         scanner.nextLine(); // Limpar o buffer do scanner
 
@@ -43,7 +43,7 @@ public class Telefonia {
             }
         } else if (tipoAssinante == 2) {
             if (numPosPagos < MAX_POS_PAGOS) {
-                posPagos[numPosPagos] = new AssinantePosPago(cpf, nome, numero);
+                posPagos[numPosPagos] = new AssinantePosPago(cpf, nome, numero, );
                 numPosPagos++;
                 System.out.println("Assinante pós-pago cadastrado com sucesso!");
             } else {
@@ -71,7 +71,7 @@ public class Telefonia {
         System.out.println("Digite o tipo de assinante (P - Pré-pago / O - Pós-pago):");
         String tipoAssinante = scanner.nextLine().toUpperCase();
 
-        Assinante assinante = null;
+        Assinante assinante;
 
         if (tipoAssinante.equals("P")) {
             System.out.println("Digite o CPF do assinante pré-pago:");
@@ -122,10 +122,10 @@ public class Telefonia {
     public void fazerRecarga() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Digite o CPF do assinante pré-pago:");
-        long cpf = scanner.nextLong();
+        String cpf = String.valueOf(scanner.nextLong());
         scanner.nextLine(); // Limpar o buffer
 
-        PrePago assinante = localizarPrePago(cpf);
+        AssinantePrePago assinante = localizarPrePago(cpf);
 
         if (assinante != null) {
             System.out.println("Digite o valor da recarga:");
@@ -141,7 +141,7 @@ public class Telefonia {
                 Calendar dataRecarga = Calendar.getInstance();
                 dataRecarga.setTime(data);
 
-                assinante.recarregar(dataRecarga, valor);
+                assinante.recarregar((GregorianCalendar) dataRecarga, valor);
                 System.out.println("Recarga realizada com sucesso para o assinante CPF: " + cpf);
             } catch (ParseException e) {
                 System.out.println("Data inválida. A recarga não pôde ser realizada.");
@@ -152,18 +152,18 @@ public class Telefonia {
     }
 
 
-    public AssinantePrePago localizarPrePago(long cpf) {
+    public AssinantePrePago localizarPrePago(String cpf) {
         for (int i = 0; i < numPrePagos; i++) {
-            if (prePagos[i].getCPF() == cpf) {
+            if (prePagos[i].getCpf().equals(cpf)) {
                 return prePagos[i];
             }
         }
         return null;
     }
 
-    public AssinantePosPago localizarPosPago(long cpf) {
+    public AssinantePosPago localizarPosPago(String cpf) {
         for (int i = 0; i < numPosPagos; i++) {
-            if (posPagos[i].getCPF() == cpf) {
+            if (posPagos[i].getCpf().equals(cpf)) {
                 return posPagos[i];
             }
         }
@@ -177,17 +177,17 @@ public class Telefonia {
 
         System.out.println("Faturas dos assinantes pré-pagos:");
         for (int i = 0; i < numPrePagos; i++) {
-            System.out.println("CPF: " + prePagos[i].getCPF());
+            System.out.println("CPF: " + prePagos[i].getCpf());
             System.out.println("Nome: " + prePagos[i].getNome());
-            System.out.println("Telefone: " + prePagos[i].getNumeroTelefone());
+            System.out.println("Telefone: " + prePagos[i].getNumero());
             prePagos[i].imprimirFatura(mes);
             System.out.println("----------------------------------------");
         }
         System.out.println("Faturas dos assinantes pós-pagos:");
         for (int i = 0; i < numPosPagos; i++) {
-            System.out.println("CPF: " + posPagos[i].getCPF());
+            System.out.println("CPF: " + posPagos[i].getCpf());
             System.out.println("Nome: " + posPagos[i].getNome());
-            System.out.println("Telefone: " + posPagos[i].getNumeroTelefone());
+            System.out.println("Telefone: " + posPagos[i]. getNumero());
             posPagos[i].imprimirFatura(mes);
             System.out.println("----------------------------------------");
         }

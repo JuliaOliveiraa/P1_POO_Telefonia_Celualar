@@ -3,11 +3,12 @@ import java.util.GregorianCalendar;
 public class AssinantePosPago extends Assinante {
     private float assinatura;
 
-    public AssinantePosPago(String cpf, String nome, String numero, float assinatura) {
+    public AssinantePosPago(long cpf, String nome, String numero, float assinatura) {
         super(cpf, nome, numero);
         this.assinatura = assinatura;
     }
     public void fazerChamada(GregorianCalendar data, int duracao) {
+
         float custoPorMinuto = 1.04f;
 
         if (numChamadas >= chamadas.length) {
@@ -45,5 +46,6 @@ public class AssinantePosPago extends Assinante {
         System.out.println("Valor total das chamadas: R$" + custoTotalChamadas);
         System.out.println("Valor total da fatura: R$" + valorTotalFatura);
     }
+
 }
 

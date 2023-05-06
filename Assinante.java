@@ -17,6 +17,13 @@ public class Assinante {
         return cpf;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
     @Override
     public String toString() {
         return "CPF: " + cpf + ", Nome: " + nome + ", Número: " + numero;
