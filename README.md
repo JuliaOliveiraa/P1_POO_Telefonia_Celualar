@@ -36,6 +36,7 @@ Para executar o projeto, siga as etapas abaixo:
 
 ## Equipe
 - [Julia Oliveira](https://github.com/JuliaOliveiraa)
+- [Matheus Trindade](https://github.com/MatheusJtp)
 
 ## Considerações Finais
 
