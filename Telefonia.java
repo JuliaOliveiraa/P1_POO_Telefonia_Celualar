@@ -1,6 +1,11 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class Telefonia {
+    private static final int MAX_PRE_PAGOS = ;
     private AssinantePrePago[] prePagos;
     private int numPrePagos;
     private AssinantePosPago[] posPagos;
@@ -113,5 +118,80 @@ public class Telefonia {
             System.out.println("Assinante não encontrado.");
         }
     }
+
+    public void fazerRecarga() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Digite o CPF do assinante pré-pago:");
+        long cpf = scanner.nextLong();
+        scanner.nextLine(); // Limpar o buffer
+
+        PrePago assinante = localizarPrePago(cpf);
+
+        if (assinante != null) {
+            System.out.println("Digite o valor da recarga:");
+            float valor = scanner.nextFloat();
+            scanner.nextLine(); // Limpar o buffer
+
+            System.out.println("Digite a data da recarga (dd/MM/yyyy):");
+            String dataString = scanner.nextLine();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date data;
+            try {
+                data = sdf.parse(dataString);
+                Calendar dataRecarga = Calendar.getInstance();
+                dataRecarga.setTime(data);
+
+                assinante.recarregar(dataRecarga, valor);
+                System.out.println("Recarga realizada com sucesso para o assinante CPF: " + cpf);
+            } catch (ParseException e) {
+                System.out.println("Data inválida. A recarga não pôde ser realizada.");
+            }
+        } else {
+            System.out.println("Assinante pré-pago com CPF " + cpf + " não encontrado.");
+        }
+    }
+
+
+    public AssinantePrePago localizarPrePago(long cpf) {
+        for (int i = 0; i < numPrePagos; i++) {
+            if (prePagos[i].getCPF() == cpf) {
+                return prePagos[i];
+            }
+        }
+        return null;
+    }
+
+    public AssinantePosPago localizarPosPago(long cpf) {
+        for (int i = 0; i < numPosPagos; i++) {
+            if (posPagos[i].getCPF() == cpf) {
+                return posPagos[i];
+            }
+        }
+        return null;
+    }
+    public void imprimirFaturas() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Digite o mês para imprimir as faturas:");
+        int mes = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+
+        System.out.println("Faturas dos assinantes pré-pagos:");
+        for (int i = 0; i < numPrePagos; i++) {
+            System.out.println("CPF: " + prePagos[i].getCPF());
+            System.out.println("Nome: " + prePagos[i].getNome());
+            System.out.println("Telefone: " + prePagos[i].getNumeroTelefone());
+            prePagos[i].imprimirFatura(mes);
+            System.out.println("----------------------------------------");
+        }
+        System.out.println("Faturas dos assinantes pós-pagos:");
+        for (int i = 0; i < numPosPagos; i++) {
+            System.out.println("CPF: " + posPagos[i].getCPF());
+            System.out.println("Nome: " + posPagos[i].getNome());
+            System.out.println("Telefone: " + posPagos[i].getNumeroTelefone());
+            posPagos[i].imprimirFatura(mes);
+            System.out.println("----------------------------------------");
+        }
+    }
+
 }
 

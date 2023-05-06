@@ -7,7 +7,6 @@ public class AssinantePosPago extends Assinante {
         super(cpf, nome, numero);
         this.assinatura = assinatura;
     }
-
     public void fazerChamada(GregorianCalendar data, int duracao) {
         float custoPorMinuto = 1.04f;
 
