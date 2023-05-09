@@ -3,6 +3,7 @@ public class Assinante {
     private String nome;
     private String numero;
     private Chamada[] chamadas;
+    //protected
     private int numChamadas;
 
     public Assinante(String cpf, String nome, String numero) {
@@ -16,7 +17,7 @@ public class Assinante {
     public String getCpf() {
         return cpf;
     }
-
+// usar toString para get 
     public String getNome() {
         return nome;
     }
