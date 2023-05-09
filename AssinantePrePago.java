@@ -8,6 +8,7 @@ public class AssinantePrePago extends Assinante {
     public AssinantePrePago(String cpf, String nome, String numero) {
         super(cpf, nome, numero);
         this.recargas = new Recarga[100]; // tamanho inicial do vetor de recargas
+        //nao passados no construtor
         this.numRecargas = 0;
         this.creditos = 0.0f;
     }
