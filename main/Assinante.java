@@ -7,7 +7,6 @@ public class Assinante {
 	private String nome;
 	private String numero;
 	protected Chamada[] chamadas;
-	// protected
 	protected int numChamadas;
 
 	public Assinante(String cpf, String nome, String numero) {

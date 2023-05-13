@@ -2,61 +2,60 @@ package main;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
 
 public class Telefonia {
-	private AssinantePrePago[] prePagos;
-	private int numPrePagos;
-	private AssinantePosPago[] posPagos;
-	private int numPosPagos;
+	private List<AssinantePrePago> prePagos;
+	private List<AssinantePosPago> posPagos;
 
 	public Telefonia() {
-		prePagos = new AssinantePrePago[100]; // tamanho inicial do vetor de assinantes pré-pagos
-		numPrePagos = 0;
-		posPagos = new AssinantePosPago[100]; // tamanho inicial do vetor de assinantes pós-pagos
-		numPosPagos = 0;
+		prePagos = new ArrayList<>();
+		posPagos = new ArrayList<>();
 	}
 
 	public void cadastrarAssinante() {
 		System.out.println("Digite o tipo de assinante (1 - Pré-pago, 2 - Pós-pago):");
-		Scanner scanner = new Scanner(System.in);
-		int tipoAssinante = scanner.nextInt();
-		scanner.nextLine(); // Limpar o buffer do scanner
+		try (Scanner scanner = new Scanner(System.in)) {
+			int tipoAssinante = scanner.nextInt();
+			scanner.nextLine(); // Limpar o buffer do scanner
 
-		System.out.println("Digite o CPF do assinante:");
-		String cpf = scanner.nextLine();
+			System.out.println("Digite o CPF do assinante:");
+			String cpf = scanner.nextLine();
 
-		System.out.println("Digite o nome do assinante:");
-		String nome = scanner.nextLine();
+			System.out.println("Digite o nome do assinante:");
+			String nome = scanner.nextLine();
 
-		System.out.println("Digite o número do telefone do assinante:");
-		String numero = scanner.nextLine();
+			System.out.println("Digite o número do telefone do assinante:");
+			String numero = scanner.nextLine();
 
-		if (tipoAssinante == 1) {
-			prePagos[numPrePagos] = new AssinantePrePago(cpf, nome, numero);
-			numPrePagos++;
-			System.out.println("Assinante pré-pago cadastrado com sucesso!");
-		} else if (tipoAssinante == 2) {
-			posPagos[numPosPagos] = new AssinantePosPago(cpf, nome, numero, 30);
-			numPosPagos++;
-			System.out.println("Assinante pós-pago cadastrado com sucesso!");
-		} else {
-			System.out.println("Opção inválida. Assinante não cadastrado.");
+			if (tipoAssinante == 1) {
+				prePagos.add(new AssinantePrePago(cpf, nome, numero));
+				System.out.println("Assinante pré-pago cadastrado com sucesso!");
+			} else if (tipoAssinante == 2) {
+				posPagos.add(new AssinantePosPago(cpf, nome, numero, 30));
+				System.out.println("Assinante pós-pago cadastrado com sucesso!");
+			} else {
+				System.out.println("Opção inválida. Assinante não cadastrado.");
+			}
+		} catch (Exception e) {
+			System.out.println("Erro durante a execução: " + e.getMessage());
 		}
 	}
 
 	public void listarAssinantes() {
 		System.out.println("Assinantes Pré-pagos:");
-		for (int i = 0; i < numPrePagos; i++) {
-			System.out.println(prePagos[i].toString());
+		for (int i = 0; i < prePagos.size(); i++) {
+			System.out.println(prePagos.get(i).toString());
 		}
 
 		System.out.println("Assinantes Pós-pagos:");
-		for (int i = 0; i < numPosPagos; i++) {
-			System.out.println(posPagos[i].toString());
+		for (int i = 0; i < posPagos.size(); i++) {
+			System.out.println(posPagos.get(i).toString());
 		}
 	}
 
@@ -71,9 +70,9 @@ public class Telefonia {
 			System.out.println("Digite o CPF do assinante pré-pago:");
 			String cpf = scanner.nextLine();
 
-			for (int i = 0; i < numPrePagos; i++) {
-				if (prePagos[i].getCpf().equals(cpf)) {
-					assinante = prePagos[i];
+			for (int i = 0; i < prePagos.size(); i++) {
+				if (prePagos.get(i).getCpf().equals(cpf)) {
+					assinante = prePagos.get(i);
 					break;
 				}
 			}
@@ -81,9 +80,9 @@ public class Telefonia {
 			System.out.println("Digite o CPF do assinante pós-pago:");
 			String cpf = scanner.nextLine();
 
-			for (int i = 0; i < numPosPagos; i++) {
-				if (posPagos[i].getCpf().equals(cpf)) {
-					assinante = posPagos[i];
+			for (int i = 0; i < posPagos.size(); i++) {
+				if (posPagos.get(i).getCpf().equals(cpf)) {
+					assinante = posPagos.get(i);
 					break;
 				}
 			}
@@ -146,18 +145,18 @@ public class Telefonia {
 	}
 
 	public AssinantePrePago localizarPrePago(String cpf) {
-		for (int i = 0; i < numPrePagos; i++) {
-			if (prePagos[i].getCpf().equals(cpf)) {
-				return prePagos[i];
+		for (int i = 0; i < prePagos.size(); i++) {
+			if (prePagos.get(i).getCpf().equals(cpf)) {
+				return prePagos.get(i);
 			}
 		}
 		return null;
 	}
 
 	public AssinantePosPago localizarPosPago(String cpf) {
-		for (int i = 0; i < numPosPagos; i++) {
-			if (posPagos[i].getCpf().equals(cpf)) {
-				return posPagos[i];
+		for (int i = 0; i < posPagos.size(); i++) {
+			if (posPagos.get(i).getCpf().equals(cpf)) {
+				return posPagos.get(i);
 			}
 		}
 		return null;
@@ -170,19 +169,13 @@ public class Telefonia {
 		scanner.nextLine(); // Limpar o buffer
 
 		System.out.println("Faturas dos assinantes pré-pagos:");
-		for (int i = 0; i < numPrePagos; i++) {
-			System.out.println("CPF: " + prePagos[i].getCpf());
-			System.out.println("Nome: " + prePagos[i].getNome());
-			System.out.println("Telefone: " + prePagos[i].getNumero());
-			prePagos[i].imprimirFatura(mes);
+		for (int i = 0; i < prePagos.size(); i++) {
+			prePagos.get(i).imprimirFatura(mes);
 			System.out.println("----------------------------------------");
 		}
 		System.out.println("Faturas dos assinantes pós-pagos:");
-		for (int i = 0; i < numPosPagos; i++) {
-			System.out.println("CPF: " + posPagos[i].getCpf());
-			System.out.println("Nome: " + posPagos[i].getNome());
-			System.out.println("Telefone: " + posPagos[i].getNumero());
-			posPagos[i].imprimirFatura(mes);
+		for (int i = 0; i < posPagos.size(); i++) {
+			posPagos.get(i).imprimirFatura(mes);
 			System.out.println("----------------------------------------");
 		}
 	}
