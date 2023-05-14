@@ -44,7 +44,12 @@ public class Telefonia {
 			prePagos.add(new AssinantePrePago(cpf, nome, numero));
 			System.out.println("Assinante pré-pago cadastrado com sucesso!");
 		} else if (tipoAssinante == 2) {
-			posPagos.add(new AssinantePosPago(cpf, nome, numero, 30));
+			System.out.print("Digite o valor da assinatura do telefone do assinante:");
+			int valor = scanner.nextInt();
+
+			System.out.println();
+			
+			posPagos.add(new AssinantePosPago(cpf, nome, numero, valor));
 			System.out.println("Assinante pós-pago cadastrado com sucesso!");
 		} else {
 			System.out.println("Opção inválida. Assinante não cadastrado.");
