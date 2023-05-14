@@ -19,19 +19,26 @@ public class Telefonia {
 	}
 
 	public void cadastrarAssinante() {
-		System.out.println("Digite o tipo de assinante (1 - Pré-pago, 2 - Pós-pago):");
+		System.out.print("Digite o tipo de assinante (1 - Pré-pago, 2 - Pós-pago):");
 		try (Scanner scanner = new Scanner(System.in)) {
 			int tipoAssinante = scanner.nextInt();
-			scanner.nextLine(); // Limpar o buffer do scanner
+			
+			System.out.println();
 
-			System.out.println("Digite o CPF do assinante:");
+			System.out.print("Digite o CPF do assinante:");
 			String cpf = scanner.nextLine();
-
-			System.out.println("Digite o nome do assinante:");
+			
+			System.out.println();
+			
+			System.out.print("Digite o nome do assinante:");
 			String nome = scanner.nextLine();
+			
+			System.out.println();
 
-			System.out.println("Digite o número do telefone do assinante:");
+			System.out.print("Digite o número do telefone do assinante:");
 			String numero = scanner.nextLine();
+			
+			System.out.println();
 
 			if (tipoAssinante == 1) {
 				prePagos.add(new AssinantePrePago(cpf, nome, numero));
@@ -61,13 +68,15 @@ public class Telefonia {
 
 	public void fazerChamada() {
 		try (Scanner scanner = new Scanner(System.in)) {
-			System.out.println("Digite o tipo de assinante (P - Pré-pago / O - Pós-pago):");
+			System.out.print("Digite o tipo de assinante (P - Pré-pago / O - Pós-pago):");
 			String tipoAssinante = scanner.nextLine().toUpperCase();
 
+			System.out.println();
+			
 			Assinante assinante = null;
 
 			if (tipoAssinante.equals("P")) {
-				System.out.println("Digite o CPF do assinante pré-pago:");
+				System.out.print("Digite o CPF do assinante pré-pago:");
 				String cpf = scanner.nextLine();
 
 				for (int i = 0; i < prePagos.size(); i++) {
@@ -77,7 +86,7 @@ public class Telefonia {
 					}
 				}
 			} else if (tipoAssinante.equals("O")) {
-				System.out.println("Digite o CPF do assinante pós-pago:");
+				System.out.print("Digite o CPF do assinante pós-pago:");
 				String cpf = scanner.nextLine();
 
 				for (int i = 0; i < posPagos.size(); i++) {
@@ -89,11 +98,16 @@ public class Telefonia {
 			}
 
 			if (assinante != null) {
-				System.out.println("Digite a data da chamada (dd/MM/yyyy):");
+				System.out.print("Digite a data da chamada (dd/MM/yyyy):");
 				String dataStr = scanner.nextLine();
-				System.out.println("Digite a duração da chamada em minutos:");
+				
+				System.out.println();
+				
+				System.out.print("Digite a duração da chamada em minutos:");
 				int duracao = scanner.nextInt();
 
+				System.out.println();
+				
 				// Converter a data de string para o formato desejado (dd/MM/yyyy)
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				Date data;
@@ -115,16 +129,16 @@ public class Telefonia {
 
 	public void fazerRecarga() {
 		try (Scanner scanner = new Scanner(System.in)) {
-			System.out.println("Digite o CPF do assinante pré-pago:");
+			System.out.print("Digite o CPF do assinante pré-pago:");
 			String cpf = String.valueOf(scanner.nextLong());
-			scanner.nextLine(); // Limpar o buffer
 
+			System.out.println();
+			
 			AssinantePrePago assinante = localizarPrePago(cpf);
 
 			if (assinante != null) {
 				System.out.println("Digite o valor da recarga:");
 				float valor = scanner.nextFloat();
-				scanner.nextLine(); // Limpar o buffer
 
 				System.out.println("Digite a data da recarga (dd/MM/yyyy):");
 				String dataString = scanner.nextLine();
@@ -166,9 +180,11 @@ public class Telefonia {
 
 	public void imprimirFaturas() {
 		try (Scanner scanner = new Scanner(System.in)) {
-			System.out.println("Digite o mês para imprimir as faturas:");
+			System.out.print("Digite o mês para imprimir as faturas:");
+			
 			int mes = scanner.nextInt();
-			scanner.nextLine(); // Limpar o buffer
+			
+			System.out.println();
 
 			System.out.println("Faturas dos assinantes pré-pagos:");
 			for (int i = 0; i < prePagos.size(); i++) {

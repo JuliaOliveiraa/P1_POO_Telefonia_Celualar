@@ -3,11 +3,11 @@ package main;
 import java.util.GregorianCalendar;
 
 public class AssinantePosPago extends Assinante {
-	private float assinatura;
+	private float valorAssinatura;
 
-	public AssinantePosPago(String cpf, String nome, String numero, float assinatura) {
+	public AssinantePosPago(String cpf, String nome, String numero, float valorAssinatura) {
 		super(cpf, nome, numero);
-		this.assinatura = assinatura;
+		this.valorAssinatura = valorAssinatura;
 	}
 
 	@Override
@@ -37,8 +37,8 @@ public class AssinantePosPago extends Assinante {
 		}
 
 		// Imprimir total da fatura
-		float valorTotalFatura = assinatura + custoTotalChamadas;
-		System.out.println("Valor da assinatura: R$" + assinatura);
+		float valorTotalFatura = valorAssinatura + custoTotalChamadas;
+		System.out.println("Valor da assinatura: R$" + valorAssinatura);
 		System.out.println("Valor total das chamadas: R$" + custoTotalChamadas);
 		System.out.println("Valor total da fatura: R$" + valorTotalFatura);
 	}
