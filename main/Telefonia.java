@@ -146,7 +146,6 @@ public class Telefonia {
 				dataRecarga.setTime(data);
 
 				assinante.recarregar((GregorianCalendar) dataRecarga, valor);
-				System.out.println("Recarga realizada com sucesso para o assinante CPF: " + cpf);
 			} catch (ParseException e) {
 				System.out.println("Data inválida. A recarga não pôde ser realizada.");
 			}

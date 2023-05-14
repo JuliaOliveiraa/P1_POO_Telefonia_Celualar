@@ -32,7 +32,7 @@ public class AssinantePrePago extends Assinante {
 		Recarga recarga = new Recarga(data, valor);
 		recargas.add(recarga);
 		creditos += valor;
-		System.out.println("Recarga realizada com sucesso!");
+		System.out.println("Recarga realizada com sucesso para o assinante CPF: " + getCpf());
 	}
 
 	public void imprimirFatura(int mes) {
