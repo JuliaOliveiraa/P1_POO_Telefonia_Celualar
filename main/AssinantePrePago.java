@@ -1,47 +1,38 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class AssinantePrePago extends Assinante {
-	private Recarga[] recargas;
-	private int numRecargas;
+	private List<Recarga> recargas;
 	private float creditos;
 
 	public AssinantePrePago(String cpf, String nome, String numero) {
 		super(cpf, nome, numero);
-		this.recargas = new Recarga[100]; // tamanho inicial do vetor de recargas
-		// nao passados no construtor
-		this.numRecargas = 0;
+		this.recargas = new ArrayList<>();
 		this.creditos = 0.0f;
 	}
 
 	@Override
 	public void fazerChamada(GregorianCalendar data, int duracao) {
-		float custoPorMinuto = 1.45f;
-		float custoChamada = duracao * custoPorMinuto;
+		float custoChamada = duracao * 1.45f;
 
-		if (numChamadas >= chamadas.length || creditos < custoChamada) {
-			System.out
-					.println("Não é possível fazer a chamada. Créditos insuficientes ou limite de chamadas atingido.");
-		} else {
+		if (custoChamada < creditos) {
 			Chamada chamada = new Chamada(data, duracao);
-			chamadas[numChamadas] = chamada;
-			numChamadas++;
+			chamadas.add(chamada);
 			creditos -= custoChamada;
 			System.out.println("Chamada registrada com sucesso!");
+		} else {
+			System.out.println("Chamada não pode ser executada, não tem créditos disponíveis para a mesma!");
 		}
 	}
 
 	public void recarregar(GregorianCalendar data, float valor) {
-		if (numRecargas >= recargas.length) {
-			System.out.println("Não é possível realizar a recarga. Limite de recargas atingido.");
-		} else {
-			Recarga recarga = new Recarga(data, valor);
-			recargas[numRecargas] = recarga;
-			numRecargas++;
-			creditos += valor;
-			System.out.println("Recarga realizada com sucesso!");
-		}
+		Recarga recarga = new Recarga(data, valor);
+		recargas.add(recarga);
+		creditos += valor;
+		System.out.println("Recarga realizada com sucesso!");
 	}
 
 	public void imprimirFatura(int mes) {
@@ -51,8 +42,8 @@ public class AssinantePrePago extends Assinante {
 
 		// Imprimir chamadas do mês
 		System.out.println("Chamadas do mês:");
-		for (int i = 0; i < numChamadas; i++) {
-			Chamada chamada = chamadas[i];
+		for (int i = 0; i < chamadas.size(); i++) {
+			Chamada chamada = chamadas.get(i);
 			if (chamada.getData().get(GregorianCalendar.MONTH) == mes) {
 				System.out.println("Data: " + chamada.getData().getTime());
 				System.out.println("Duração: " + chamada.getDuracao() + " minutos");
@@ -63,16 +54,16 @@ public class AssinantePrePago extends Assinante {
 
 		// Imprimir recargas do mês
 		System.out.println("Recargas do mês:");
-		for (int i = 0; i < numRecargas; i++) {
-			Recarga recarga = recargas[i];
+		for (int i = 0; i < recargas.size(); i++) {
+			Recarga recarga = recargas.get(i);
 			if (recarga.getData().get(GregorianCalendar.MONTH) == mes) {
 				System.out.println("Data: " + recarga.getData().getTime());
 				System.out.println("Valor: R$" + recarga.getValor());
 			}
 		}
 
-		System.out.println("Total de chamadas: " + numChamadas);
-		System.out.println("Total de recargas: " + numRecargas);
+		System.out.println("Total de chamadas: " + chamadas.size());
+		System.out.println("Total de recargas: " + recargas.size());
 		System.out.println("Créditos disponíveis: R$" + creditos);
 	}
 }

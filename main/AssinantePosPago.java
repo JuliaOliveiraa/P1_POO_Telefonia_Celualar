@@ -12,17 +12,9 @@ public class AssinantePosPago extends Assinante {
 
 	@Override
 	public void fazerChamada(GregorianCalendar data, int duracao) {
-
-		float custoPorMinuto = 1.04f;
-
-		if (numChamadas >= chamadas.length) {
-			System.out.println("Não é possível fazer a chamada. Limite de chamadas atingido.");
-		} else {
-			Chamada chamada = new Chamada(data, duracao);
-			chamadas[numChamadas] = chamada;
-			numChamadas++;
-			System.out.println("Chamada registrada com sucesso!");
-		}
+		Chamada chamada = new Chamada(data, duracao);
+		chamadas.add(chamada);
+		System.out.println("Chamada registrada com sucesso!");
 	}
 
 	public void imprimirFatura(int mes) {
@@ -33,8 +25,8 @@ public class AssinantePosPago extends Assinante {
 		// Imprimir chamadas do mês
 		System.out.println("Chamadas do mês:");
 		float custoTotalChamadas = 0.0f;
-		for (int i = 0; i < numChamadas; i++) {
-			Chamada chamada = chamadas[i];
+		for (int i = 0; i < chamadas.size(); i++) {
+			Chamada chamada = chamadas.get(i);
 			if (chamada.getData().get(GregorianCalendar.MONTH) == mes) {
 				System.out.println("Data: " + chamada.getData().getTime());
 				System.out.println("Duração: " + chamada.getDuracao() + " minutos");

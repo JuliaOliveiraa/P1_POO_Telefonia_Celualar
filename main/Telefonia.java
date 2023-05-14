@@ -60,87 +60,89 @@ public class Telefonia {
 	}
 
 	public void fazerChamada() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Digite o tipo de assinante (P - Pré-pago / O - Pós-pago):");
-		String tipoAssinante = scanner.nextLine().toUpperCase();
+		try (Scanner scanner = new Scanner(System.in)) {
+			System.out.println("Digite o tipo de assinante (P - Pré-pago / O - Pós-pago):");
+			String tipoAssinante = scanner.nextLine().toUpperCase();
 
-		Assinante assinante = null;
+			Assinante assinante = null;
 
-		if (tipoAssinante.equals("P")) {
-			System.out.println("Digite o CPF do assinante pré-pago:");
-			String cpf = scanner.nextLine();
+			if (tipoAssinante.equals("P")) {
+				System.out.println("Digite o CPF do assinante pré-pago:");
+				String cpf = scanner.nextLine();
 
-			for (int i = 0; i < prePagos.size(); i++) {
-				if (prePagos.get(i).getCpf().equals(cpf)) {
-					assinante = prePagos.get(i);
-					break;
+				for (int i = 0; i < prePagos.size(); i++) {
+					if (prePagos.get(i).getCpf().equals(cpf)) {
+						assinante = prePagos.get(i);
+						break;
+					}
+				}
+			} else if (tipoAssinante.equals("O")) {
+				System.out.println("Digite o CPF do assinante pós-pago:");
+				String cpf = scanner.nextLine();
+
+				for (int i = 0; i < posPagos.size(); i++) {
+					if (posPagos.get(i).getCpf().equals(cpf)) {
+						assinante = posPagos.get(i);
+						break;
+					}
 				}
 			}
-		} else if (tipoAssinante.equals("O")) {
-			System.out.println("Digite o CPF do assinante pós-pago:");
-			String cpf = scanner.nextLine();
 
-			for (int i = 0; i < posPagos.size(); i++) {
-				if (posPagos.get(i).getCpf().equals(cpf)) {
-					assinante = posPagos.get(i);
-					break;
+			if (assinante != null) {
+				System.out.println("Digite a data da chamada (dd/MM/yyyy):");
+				String dataStr = scanner.nextLine();
+				System.out.println("Digite a duração da chamada em minutos:");
+				int duracao = scanner.nextInt();
+
+				// Converter a data de string para o formato desejado (dd/MM/yyyy)
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				Date data;
+				try {
+					data = dateFormat.parse(dataStr);
+					GregorianCalendar calendar = new GregorianCalendar();
+					calendar.setTime(data);
+
+					assinante.fazerChamada(calendar, duracao);
+					System.out.println("Chamada registrada com sucesso!");
+				} catch (ParseException e) {
+					System.out.println("Data inválida. A chamada não foi registrada.");
 				}
+			} else {
+				System.out.println("Assinante não encontrado.");
 			}
-		}
-
-		if (assinante != null) {
-			System.out.println("Digite a data da chamada (dd/MM/yyyy):");
-			String dataStr = scanner.nextLine();
-			System.out.println("Digite a duração da chamada em minutos:");
-			int duracao = scanner.nextInt();
-
-			// Converter a data de string para o formato desejado (dd/MM/yyyy)
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			Date data;
-			try {
-				data = dateFormat.parse(dataStr);
-				GregorianCalendar calendar = new GregorianCalendar();
-				calendar.setTime(data);
-
-				assinante.fazerChamada(calendar, duracao);
-				System.out.println("Chamada registrada com sucesso!");
-			} catch (ParseException e) {
-				System.out.println("Data inválida. A chamada não foi registrada.");
-			}
-		} else {
-			System.out.println("Assinante não encontrado.");
 		}
 	}
 
 	public void fazerRecarga() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Digite o CPF do assinante pré-pago:");
-		String cpf = String.valueOf(scanner.nextLong());
-		scanner.nextLine(); // Limpar o buffer
-
-		AssinantePrePago assinante = localizarPrePago(cpf);
-
-		if (assinante != null) {
-			System.out.println("Digite o valor da recarga:");
-			float valor = scanner.nextFloat();
+		try (Scanner scanner = new Scanner(System.in)) {
+			System.out.println("Digite o CPF do assinante pré-pago:");
+			String cpf = String.valueOf(scanner.nextLong());
 			scanner.nextLine(); // Limpar o buffer
 
-			System.out.println("Digite a data da recarga (dd/MM/yyyy):");
-			String dataString = scanner.nextLine();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			Date data;
-			try {
-				data = sdf.parse(dataString);
-				Calendar dataRecarga = Calendar.getInstance();
-				dataRecarga.setTime(data);
+			AssinantePrePago assinante = localizarPrePago(cpf);
 
-				assinante.recarregar((GregorianCalendar) dataRecarga, valor);
-				System.out.println("Recarga realizada com sucesso para o assinante CPF: " + cpf);
-			} catch (ParseException e) {
-				System.out.println("Data inválida. A recarga não pôde ser realizada.");
+			if (assinante != null) {
+				System.out.println("Digite o valor da recarga:");
+				float valor = scanner.nextFloat();
+				scanner.nextLine(); // Limpar o buffer
+
+				System.out.println("Digite a data da recarga (dd/MM/yyyy):");
+				String dataString = scanner.nextLine();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				Date data;
+				try {
+					data = sdf.parse(dataString);
+					Calendar dataRecarga = Calendar.getInstance();
+					dataRecarga.setTime(data);
+
+					assinante.recarregar((GregorianCalendar) dataRecarga, valor);
+					System.out.println("Recarga realizada com sucesso para o assinante CPF: " + cpf);
+				} catch (ParseException e) {
+					System.out.println("Data inválida. A recarga não pôde ser realizada.");
+				}
+			} else {
+				System.out.println("Assinante pré-pago com CPF " + cpf + " não encontrado.");
 			}
-		} else {
-			System.out.println("Assinante pré-pago com CPF " + cpf + " não encontrado.");
 		}
 	}
 
@@ -163,20 +165,21 @@ public class Telefonia {
 	}
 
 	public void imprimirFaturas() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Digite o mês para imprimir as faturas:");
-		int mes = scanner.nextInt();
-		scanner.nextLine(); // Limpar o buffer
+		try (Scanner scanner = new Scanner(System.in)) {
+			System.out.println("Digite o mês para imprimir as faturas:");
+			int mes = scanner.nextInt();
+			scanner.nextLine(); // Limpar o buffer
 
-		System.out.println("Faturas dos assinantes pré-pagos:");
-		for (int i = 0; i < prePagos.size(); i++) {
-			prePagos.get(i).imprimirFatura(mes);
-			System.out.println("----------------------------------------");
-		}
-		System.out.println("Faturas dos assinantes pós-pagos:");
-		for (int i = 0; i < posPagos.size(); i++) {
-			posPagos.get(i).imprimirFatura(mes);
-			System.out.println("----------------------------------------");
+			System.out.println("Faturas dos assinantes pré-pagos:");
+			for (int i = 0; i < prePagos.size(); i++) {
+				prePagos.get(i).imprimirFatura(mes);
+				System.out.println("----------------------------------------");
+			}
+			System.out.println("Faturas dos assinantes pós-pagos:");
+			for (int i = 0; i < posPagos.size(); i++) {
+				posPagos.get(i).imprimirFatura(mes);
+				System.out.println("----------------------------------------");
+			}
 		}
 	}
 
