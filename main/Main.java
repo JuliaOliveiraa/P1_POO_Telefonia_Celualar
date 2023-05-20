@@ -8,6 +8,7 @@ public class Main {
 		int opcao = 0;
 
 		do {
+			System.out.println();
 			System.out.println("Menu de Opções:");
 			System.out.println("1. Cadastrar assinante");
 			System.out.println("2. Listar assinantes");
