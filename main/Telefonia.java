@@ -31,7 +31,9 @@ public class Telefonia {
 		System.out.println();
 
 		System.out.print("Digite o nome do assinante:");
-		String nome = scanner.next();
+		scanner.nextLine();
+		String nome = scanner.nextLine();
+	
 
 		System.out.println();
 
