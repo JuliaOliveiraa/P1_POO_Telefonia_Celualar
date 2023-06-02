@@ -33,7 +33,6 @@ public class Telefonia {
 		System.out.print("Digite o nome do assinante:");
 		scanner.nextLine();
 		String nome = scanner.nextLine();
-	
 
 		System.out.println();
 
