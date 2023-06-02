@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 public class AssinantePosPago extends Assinante {
 	private float valorAssinatura;
 
-	public AssinantePosPago(String cpf, String nome, String numero, float valorAssinatura) {
+	public AssinantePosPago(long cpf, String nome, String numero, float valorAssinatura) {
 		super(cpf, nome, numero);
 		this.valorAssinatura = valorAssinatura;
 	}
@@ -17,10 +17,11 @@ public class AssinantePosPago extends Assinante {
 		System.out.println("Chamada registrada com sucesso!");
 	}
 
-	public void imprimirFatura(int mes) {
+	@Override
+	public void imprimirFatura(int mes, int ano) {
 		System.out.println("CPF: " + getCpf());
-		System.out.println("Nome: " + getNome());
-		System.out.println("Número: " + getNumero());
+		System.out.println("Nome: " + nome);
+		System.out.println("Número: " + numero);
 
 		// Imprimir chamadas do mês
 		System.out.println("Chamadas do mês:");

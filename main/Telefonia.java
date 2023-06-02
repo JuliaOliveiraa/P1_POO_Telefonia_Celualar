@@ -26,7 +26,7 @@ public class Telefonia {
 		System.out.println();
 
 		System.out.print("Digite o CPF do assinante:");
-		String cpf = scanner.next();
+		long cpf = scanner.nextLong();
 
 		System.out.println();
 
@@ -61,11 +61,15 @@ public class Telefonia {
 		System.out.println("Assinantes Pré-pagos:");
 		for (int i = 0; i < prePagos.size(); i++) {
 			System.out.println(prePagos.get(i).toString());
+			System.out.println();
 		}
 
+		System.out.println("###################################");
+		
 		System.out.println("Assinantes Pós-pagos:");
 		for (int i = 0; i < posPagos.size(); i++) {
 			System.out.println(posPagos.get(i).toString());
+			System.out.println();
 		}
 	}
 
@@ -80,20 +84,20 @@ public class Telefonia {
 
 		if (tipoAssinante.equals("P")) {
 			System.out.print("Digite o CPF do assinante pré-pago:");
-			String cpf = scanner.nextLine();
+			long cpf = scanner.nextLong();
 
 			for (int i = 0; i < prePagos.size(); i++) {
-				if (prePagos.get(i).getCpf().equals(cpf)) {
+				if (prePagos.get(i).getCpf() == cpf) {
 					assinante = prePagos.get(i);
 					break;
 				}
 			}
 		} else if (tipoAssinante.equals("O")) {
 			System.out.print("Digite o CPF do assinante pós-pago:");
-			String cpf = scanner.nextLine();
+			long cpf = scanner.nextLong();
 
 			for (int i = 0; i < posPagos.size(); i++) {
-				if (posPagos.get(i).getCpf().equals(cpf)) {
+				if (posPagos.get(i).getCpf() == cpf) {
 					assinante = posPagos.get(i);
 					break;
 				}
@@ -132,7 +136,7 @@ public class Telefonia {
 	public void fazerRecarga() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Digite o CPF do assinante pré-pago:");
-		String cpf = scanner.next();
+		long cpf = scanner.nextLong();
 
 		System.out.println();
 
@@ -160,18 +164,18 @@ public class Telefonia {
 		}
 	}
 
-	public AssinantePrePago localizarPrePago(String cpf) {
+	public AssinantePrePago localizarPrePago(long cpf) {
 		for (int i = 0; i < prePagos.size(); i++) {
-			if (prePagos.get(i).getCpf().equals(cpf)) {
+			if (prePagos.get(i).getCpf() == cpf) {
 				return prePagos.get(i);
 			}
 		}
 		return null;
 	}
 
-	public AssinantePosPago localizarPosPago(String cpf) {
+	public AssinantePosPago localizarPosPago(long cpf) {
 		for (int i = 0; i < posPagos.size(); i++) {
-			if (posPagos.get(i).getCpf().equals(cpf)) {
+			if (posPagos.get(i).getCpf() == cpf) {
 				return posPagos.get(i);
 			}
 		}
@@ -185,17 +189,67 @@ public class Telefonia {
 		int mes = scanner.nextInt();
 
 		System.out.println();
+		
+		System.out.print("Digite o ano para imprimir as faturas:");
+
+		int ano = scanner.nextInt();
+
+		System.out.println();
 
 		System.out.println("Faturas dos assinantes pré-pagos:");
 		for (int i = 0; i < prePagos.size(); i++) {
-			prePagos.get(i).imprimirFatura(mes);
+			prePagos.get(i).imprimirFatura(mes, ano);
 			System.out.println("----------------------------------------");
 		}
+		System.out.println("############################################");
 		System.out.println("Faturas dos assinantes pós-pagos:");
 		for (int i = 0; i < posPagos.size(); i++) {
-			posPagos.get(i).imprimirFatura(mes);
+			posPagos.get(i).imprimirFatura(mes, ano);
 			System.out.println("----------------------------------------");
 		}
 	}
 
+	public static void main(String[] args) {
+		Telefonia telefonia = new Telefonia();
+		int opcao = 0;
+
+		do {
+			System.out.println();
+			System.out.println("Menu de Opções:");
+			System.out.println("1. Cadastrar assinante");
+			System.out.println("2. Listar assinantes");
+			System.out.println("3. Fazer chamada");
+			System.out.println("4. Fazer recarga");
+			System.out.println("5. Imprimir faturas");
+			System.out.println("6. Sair");
+			System.out.println("Digite a opção desejada:");
+
+			Scanner scanner = new Scanner(System.in);
+			opcao = scanner.nextInt();
+
+			switch (opcao) {
+			case 1:
+				telefonia.cadastrarAssinante();
+				break;
+			case 2:
+				telefonia.listarAssinantes();
+				break;
+			case 3:
+				telefonia.fazerChamada();
+				break;
+			case 4:
+				telefonia.fazerRecarga();
+				break;
+			case 5:
+				telefonia.imprimirFaturas();
+				break;
+			case 6:
+				System.out.println("Encerrando o programa.");
+				break;
+			default:
+				System.out.println("Opção inválida.");
+				break;
+			}
+		} while (opcao != 6);
+	}
 }

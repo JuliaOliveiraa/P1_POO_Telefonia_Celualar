@@ -4,38 +4,35 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class Assinante {
-	private String cpf;
-	private String nome;
-	private String numero;
+public abstract class Assinante {
+	protected long cpf;
+	protected String nome;
+	protected String numero;
+	protected int numChamadas;
 	protected List<Chamada> chamadas;
 
-	public Assinante(String cpf, String nome, String numero) {
+	public Assinante(long cpf, String nome, String numero) {
 		this.cpf = cpf;
 		this.nome = nome;
 		this.numero = numero;
-		this.chamadas = new ArrayList<>(); // tamanho inicial do vetor de chamadas
+		this.numChamadas = 0;
+		this.chamadas = new ArrayList<>();
 	}
 
-	public String getCpf() {
+	public long getCpf() {
 		return cpf;
-	}
-
-// usar toString para get 
-	public String getNome() {
-		return nome;
-	}
-
-	public String getNumero() {
-		return numero;
 	}
 
 	@Override
 	public String toString() {
 		return "CPF: " + cpf + ", Nome: " + nome + ", Número: " + numero;
 	}
-	
+
+	public void imprimirFatura(int mes, int ano) {
+
+	}
+
 	public void fazerChamada(GregorianCalendar data, int duracao) {
-		
+
 	}
 }

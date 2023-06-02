@@ -8,7 +8,7 @@ public class AssinantePrePago extends Assinante {
 	private List<Recarga> recargas;
 	private float creditos;
 
-	public AssinantePrePago(String cpf, String nome, String numero) {
+	public AssinantePrePago(long cpf, String nome, String numero) {
 		super(cpf, nome, numero);
 		this.recargas = new ArrayList<>();
 		this.creditos = 0.0f;
@@ -35,10 +35,11 @@ public class AssinantePrePago extends Assinante {
 		System.out.println("Recarga realizada com sucesso para o assinante CPF: " + getCpf());
 	}
 
-	public void imprimirFatura(int mes) {
+	@Override
+	public void imprimirFatura(int mes, int ano) {
 		System.out.println("CPF: " + getCpf());
-		System.out.println("Nome: " + getNome());
-		System.out.println("Número: " + getNumero());
+		System.out.println("Nome: " + nome);
+		System.out.println("Número: " + numero);
 
 		// Imprimir chamadas do mês
 		System.out.println("Chamadas do mês:");
