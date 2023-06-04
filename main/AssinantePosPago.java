@@ -1,5 +1,7 @@
 package main;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class AssinantePosPago extends Assinante {
@@ -15,6 +17,7 @@ public class AssinantePosPago extends Assinante {
 		Chamada chamada = new Chamada(data, duracao);
 		chamadas.add(chamada);
 		System.out.println("Chamada registrada com sucesso!");
+		numChamadas++;
 	}
 
 	@Override
@@ -28,8 +31,8 @@ public class AssinantePosPago extends Assinante {
 		float custoTotalChamadas = 0.0f;
 		for (int i = 0; i < chamadas.size(); i++) {
 			Chamada chamada = chamadas.get(i);
-			if (chamada.getData().get(GregorianCalendar.MONTH) == mes) {
-				System.out.println("Data: " + chamada.getData().getTime());
+			if (chamada.getData().get(GregorianCalendar.MONTH) == (mes - 1)) {
+				System.out.println("Data: " + new SimpleDateFormat("dd/MM/yyyy").format(Date.from(chamada.getData().toInstant())));
 				System.out.println("Duração: " + chamada.getDuracao() + " minutos");
 				float custoChamada = chamada.getDuracao() * 1.04f;
 				System.out.println("Custo: R$" + custoChamada);
@@ -39,6 +42,8 @@ public class AssinantePosPago extends Assinante {
 
 		// Imprimir total da fatura
 		float valorTotalFatura = valorAssinatura + custoTotalChamadas;
+		
+		System.out.println("Total de chamadas: " + numChamadas);
 		System.out.println("Valor da assinatura: R$" + valorAssinatura);
 		System.out.println("Valor total das chamadas: R$" + custoTotalChamadas);
 		System.out.println("Valor total da fatura: R$" + valorTotalFatura);

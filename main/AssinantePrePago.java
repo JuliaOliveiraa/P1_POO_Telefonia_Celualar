@@ -1,6 +1,8 @@
 package main;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class AssinantePrePago extends Assinante {
 			chamadas.add(chamada);
 			creditos -= custoChamada;
 			System.out.println("Chamada registrada com sucesso!");
+			numChamadas++;
 		} else {
 			System.out.println("Chamada não pode ser executada, não tem créditos disponíveis para a mesma!");
 		}
@@ -45,8 +48,8 @@ public class AssinantePrePago extends Assinante {
 		System.out.println("Chamadas do mês:");
 		for (int i = 0; i < chamadas.size(); i++) {
 			Chamada chamada = chamadas.get(i);
-			if (chamada.getData().get(GregorianCalendar.MONTH) == mes) {
-				System.out.println("Data: " + chamada.getData().getTime());
+			if (chamada.getData().get(GregorianCalendar.MONTH) == (mes - 1)) {
+				System.out.println("Data: " + new SimpleDateFormat("dd/MM/yyyy").format(Date.from(chamada.getData().toInstant())));
 				System.out.println("Duração: " + chamada.getDuracao() + " minutos");
 				float custo = chamada.getDuracao() * 1.45f;
 				System.out.println("Custo: R$" + custo);
@@ -57,13 +60,13 @@ public class AssinantePrePago extends Assinante {
 		System.out.println("Recargas do mês:");
 		for (int i = 0; i < recargas.size(); i++) {
 			Recarga recarga = recargas.get(i);
-			if (recarga.getData().get(GregorianCalendar.MONTH) == mes) {
-				System.out.println("Data: " + recarga.getData().getTime());
+			if (recarga.getData().get(GregorianCalendar.MONTH) == (mes - 1)) {
+				System.out.println("Data: " + new SimpleDateFormat("dd/MM/yyyy").format(Date.from(recarga.getData().toInstant())));
 				System.out.println("Valor: R$" + recarga.getValor());
 			}
 		}
 
-		System.out.println("Total de chamadas: " + chamadas.size());
+		System.out.println("Total de chamadas: " + numChamadas);
 		System.out.println("Total de recargas: " + recargas.size());
 		System.out.println("Créditos disponíveis: R$" + creditos);
 	}

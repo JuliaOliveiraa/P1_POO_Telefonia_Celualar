@@ -106,8 +106,9 @@ public class Telefonia {
 
 		if (assinante != null) {
 			System.out.print("Digite a data da chamada (dd/MM/yyyy):");
-			String dataStr = scanner.nextLine();
+			String dataStr = scanner.next();
 
+			System.out.println();
 			System.out.println();
 
 			System.out.print("Digite a duração da chamada em minutos:");
@@ -117,11 +118,9 @@ public class Telefonia {
 
 			// Converter a data de string para o formato desejado (dd/MM/yyyy)
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			Date data;
 			try {
-				data = dateFormat.parse(dataStr);
 				GregorianCalendar calendar = new GregorianCalendar();
-				calendar.setTime(data);
+				calendar.setTime(dateFormat.parse(dataStr));
 
 				assinante.fazerChamada(calendar, duracao);
 			} catch (ParseException e) {
@@ -168,15 +167,6 @@ public class Telefonia {
 		for (int i = 0; i < prePagos.size(); i++) {
 			if (prePagos.get(i).getCpf() == cpf) {
 				return prePagos.get(i);
-			}
-		}
-		return null;
-	}
-
-	public AssinantePosPago localizarPosPago(long cpf) {
-		for (int i = 0; i < posPagos.size(); i++) {
-			if (posPagos.get(i).getCpf() == cpf) {
-				return posPagos.get(i);
 			}
 		}
 		return null;
