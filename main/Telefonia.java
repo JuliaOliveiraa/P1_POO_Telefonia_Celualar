@@ -46,7 +46,7 @@ public class Telefonia {
 			System.out.println("Assinante pré-pago cadastrado com sucesso!");
 		} else if (tipoAssinante == 2) {
 			System.out.print("Digite o valor da assinatura do telefone do assinante:");
-			int valor = scanner.nextInt();
+			float valor = scanner.nextFloat();
 
 			System.out.println();
 			
@@ -64,7 +64,7 @@ public class Telefonia {
 			System.out.println();
 		}
 
-		System.out.println("###################################");
+		System.out.println("----------------------------------------------------------------");
 		
 		System.out.println("Assinantes Pós-pagos:");
 		for (int i = 0; i < posPagos.size(); i++) {
@@ -75,14 +75,14 @@ public class Telefonia {
 
 	public void fazerChamada() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Digite o tipo de assinante (P - Pré-pago / O - Pós-pago):");
-		String tipoAssinante = scanner.nextLine().toUpperCase();
+		System.out.print("Digite o tipo de assinante (1 - Pré-pago / 2 - Pós-pago):");
+		int tipoAssinante = scanner.nextInt();
 
 		System.out.println();
 
 		Assinante assinante = null;
 
-		if (tipoAssinante.equals("P")) {
+		if (tipoAssinante == 1) {
 			System.out.print("Digite o CPF do assinante pré-pago:");
 			long cpf = scanner.nextLong();
 
@@ -92,7 +92,7 @@ public class Telefonia {
 					break;
 				}
 			}
-		} else if (tipoAssinante.equals("O")) {
+		} else if (tipoAssinante == 2) {
 			System.out.print("Digite o CPF do assinante pós-pago:");
 			long cpf = scanner.nextLong();
 
@@ -201,11 +201,11 @@ public class Telefonia {
 			prePagos.get(i).imprimirFatura(mes, ano);
 			System.out.println("----------------------------------------");
 		}
-		System.out.println("############################################");
+		System.out.println("------------------------------------------------------------------");
 		System.out.println("Faturas dos assinantes pós-pagos:");
 		for (int i = 0; i < posPagos.size(); i++) {
 			posPagos.get(i).imprimirFatura(mes, ano);
-			System.out.println("----------------------------------------");
+			System.out.println("-------------------------------------------------------");
 		}
 	}
 

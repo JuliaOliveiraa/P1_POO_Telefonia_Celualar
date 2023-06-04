@@ -28,11 +28,7 @@ public abstract class Assinante {
 		return "CPF: " + cpf + ", Nome: " + nome + ", Número: " + numero;
 	}
 
-	public void imprimirFatura(int mes, int ano) {
+	public abstract void imprimirFatura(int mes, int ano);
 
-	}
-
-	public void fazerChamada(GregorianCalendar data, int duracao) {
-
-	}
+	public abstract void fazerChamada(GregorianCalendar data, int duracao);
 }
