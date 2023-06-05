@@ -10,12 +10,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Telefonia {
-	private List<AssinantePrePago> prePagos;
-	private List<AssinantePosPago> posPagos;
+	private List<Assinante> assinantes;
 
 	public Telefonia() {
-		prePagos = new ArrayList<>();
-		posPagos = new ArrayList<>();
+		assinantes = new ArrayList<>();
 	}
 
 	public void cadastrarAssinante() {
@@ -42,15 +40,15 @@ public class Telefonia {
 		System.out.println();
 
 		if (tipoAssinante == 1) {
-			prePagos.add(new AssinantePrePago(cpf, nome, numero));
+			assinantes.add(new AssinantePrePago(cpf, nome, numero));
 			System.out.println("Assinante pré-pago cadastrado com sucesso!");
 		} else if (tipoAssinante == 2) {
 			System.out.print("Digite o valor da assinatura do telefone do assinante:");
 			float valor = scanner.nextFloat();
 
 			System.out.println();
-			
-			posPagos.add(new AssinantePosPago(cpf, nome, numero, valor));
+
+			assinantes.add(new AssinantePosPago(cpf, nome, numero, valor));
 			System.out.println("Assinante pós-pago cadastrado com sucesso!");
 		} else {
 			System.out.println("Opção inválida. Assinante não cadastrado.");
@@ -58,58 +56,32 @@ public class Telefonia {
 	}
 
 	public void listarAssinantes() {
-		System.out.println("Assinantes Pré-pagos:");
-		for (int i = 0; i < prePagos.size(); i++) {
-			System.out.println(prePagos.get(i).toString());
-			System.out.println();
-		}
-
-		System.out.println("----------------------------------------------------------------");
-		
-		System.out.println("Assinantes Pós-pagos:");
-		for (int i = 0; i < posPagos.size(); i++) {
-			System.out.println(posPagos.get(i).toString());
+		System.out.println("Assinantes");
+		for (Assinante assinante : assinantes) {
+			System.out.println(assinante.toString());
 			System.out.println();
 		}
 	}
 
 	public void fazerChamada() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Digite o tipo de assinante (1 - Pré-pago / 2 - Pós-pago):");
-		int tipoAssinante = scanner.nextInt();
+		System.out.print("Digite o CPF do assinante:");
+		long cpf = scanner.nextLong();
 
 		System.out.println();
 
 		Assinante assinante = null;
 
-		if (tipoAssinante == 1) {
-			System.out.print("Digite o CPF do assinante pré-pago:");
-			long cpf = scanner.nextLong();
-
-			for (int i = 0; i < prePagos.size(); i++) {
-				if (prePagos.get(i).getCpf() == cpf) {
-					assinante = prePagos.get(i);
-					break;
-				}
-			}
-		} else if (tipoAssinante == 2) {
-			System.out.print("Digite o CPF do assinante pós-pago:");
-			long cpf = scanner.nextLong();
-
-			for (int i = 0; i < posPagos.size(); i++) {
-				if (posPagos.get(i).getCpf() == cpf) {
-					assinante = posPagos.get(i);
-					break;
-				}
+		for (Assinante a : assinantes) {
+			if (a.getCpf() == cpf) {
+				assinante = a;
+				break;
 			}
 		}
 
 		if (assinante != null) {
 			System.out.print("Digite a data da chamada (dd/MM/yyyy):");
 			String dataStr = scanner.next();
-
-			System.out.println();
-			System.out.println();
 
 			System.out.print("Digite a duração da chamada em minutos:");
 			int duracao = scanner.nextInt();
@@ -164,9 +136,9 @@ public class Telefonia {
 	}
 
 	public AssinantePrePago localizarPrePago(long cpf) {
-		for (int i = 0; i < prePagos.size(); i++) {
-			if (prePagos.get(i).getCpf() == cpf) {
-				return prePagos.get(i);
+		for (Assinante assinante : assinantes) {
+			if (assinante instanceof AssinantePrePago && assinante.getCpf() == cpf) {
+				return (AssinantePrePago) assinante;
 			}
 		}
 		return null;
@@ -179,7 +151,7 @@ public class Telefonia {
 		int mes = scanner.nextInt();
 
 		System.out.println();
-		
+
 		System.out.print("Digite o ano para imprimir as faturas:");
 
 		int ano = scanner.nextInt();
@@ -187,15 +159,19 @@ public class Telefonia {
 		System.out.println();
 
 		System.out.println("Faturas dos assinantes pré-pagos:");
-		for (int i = 0; i < prePagos.size(); i++) {
-			prePagos.get(i).imprimirFatura(mes, ano);
-			System.out.println("----------------------------------------");
+		for (Assinante assinante : assinantes) {
+			if (assinante instanceof AssinantePrePago) {
+				assinante.imprimirFatura(mes, ano);
+				System.out.println("----------------------------------------");
+			}
 		}
 		System.out.println("------------------------------------------------------------------");
 		System.out.println("Faturas dos assinantes pós-pagos:");
-		for (int i = 0; i < posPagos.size(); i++) {
-			posPagos.get(i).imprimirFatura(mes, ano);
-			System.out.println("-------------------------------------------------------");
+		for (Assinante assinante : assinantes) {
+			if (assinante instanceof AssinantePosPago) {
+				assinante.imprimirFatura(mes, ano);
+				System.out.println("-------------------------------------------------------");
+			}
 		}
 	}
 
